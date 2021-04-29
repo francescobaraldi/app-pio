@@ -4,15 +4,15 @@
   "engineFactory": "org.apache.predictionio.examples.classification.ClassificationEngine",
   "datasource": {
     "params": {
-      "appName": "MyClass"
+      "appName": "myrf"
     }
   },
   "algorithms": [
     {
       "name": "randomforest",
       "params": {
-        "numClasses": 4,
-        "numTrees": 5,
+        "numClasses": 3,
+        "numTrees": 10,
         "featureSubsetStrategy": "auto",
         "impurity": "gini",
         "maxDepth": 4,
