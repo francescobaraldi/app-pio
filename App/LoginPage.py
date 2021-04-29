@@ -1,11 +1,14 @@
 from tkinter import *
 from RegistrazionePage import Registrazione
+from HomePage import Home
+from DBManager.DB import Database
 
 class Login(Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
         self.parent = parent
+        self.db = Database()
         self.create_widgets()
     
     def create_widgets(self):
@@ -31,5 +34,13 @@ class Login(Frame):
         self.registrazione_button.place(relx=0.5, rely=0.5, anchor=CENTER)
 
     def login(self):
-        print("Login")
-
+        users = self.db.read_user("*", "username", self.username_text.get())
+        if(len(users) == 0):
+            error = Label(self, text="Non esiste un utente con qesto username.", font=(18), fg="red")
+            error.place(relx=0.5, rely=0.35, anchor=CENTER)
+            return
+        if(users[0][3] != self.password_text.get()):
+            error = Label(self, text="Password errata.", font=(18), fg="red")
+            error.place(relx=0.5, rely=0.35, anchor=CENTER)
+            return
+        self.controller.show_frame(Home)

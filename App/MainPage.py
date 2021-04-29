@@ -1,6 +1,7 @@
 from tkinter import *
 from LoginPage import Login
 from RegistrazionePage import Registrazione
+from HomePage import Home
 
 class Main(Tk):
     def __init__(self, *args, **kwargs):
@@ -11,13 +12,12 @@ class Main(Tk):
         self.container.pack(side="top", fill="both", expand=True)
   
         self.frames = {} 
-        self.frame_names = [Login, Registrazione]
+        self.frame_names = [Login, Registrazione, Home]
         for F in self.frame_names:
             frame = F(self.container, self)
             self.frames[F] = frame
   
         self.show_frame(Login)
-
 
     def show_frame(self, F):
         frame = self.frames[F]
