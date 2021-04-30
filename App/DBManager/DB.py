@@ -24,6 +24,10 @@ class Database:
         self.cursor.execute("INSERT INTO users (username, nome, cognome, password) VALUES (%s, %s, %s, %s)", (username, nome, cognome, password))
         self.conn.commit()
 
+    def update_user(self, actualusername, username, nome, cognome, password):
+        self.cursor.execute("UPDATE users SET username = %s, nome = %s, cognome = %s, password = %s WHERE username = %s", (username, nome, cognome, password, actualusername))
+        self.conn.commit()
+
     def read_company(self, sel, attr, val):
         self.cursor.execute("SELECT {sel} FROM company WHERE {attr} = '%s'".format(sel=sel, attr=attr) % (val))
         return self.cursor.fetchall()
@@ -36,3 +40,6 @@ class Database:
     def delete_company(self, name):
         self.cursor.execute("DELETE FROM companies WHERE name = '%s'".format(name))
         self.conn.commit()
+
+    def close(self):
+        self.conn.close()

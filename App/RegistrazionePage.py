@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
-from HomePage import Home
+import HomePage
+import LoginPage
 from DBManager.DB import Database
 
 class Registrazione(Frame):
@@ -47,7 +48,7 @@ class Registrazione(Frame):
         self.registrazione_button = Button(self, text="Registrati", font=(18), width=10, command=lambda : self.registrato())
         self.registrazione_button.place(relx=0.5, rely=0.7, anchor=CENTER)
 
-        self.indietro_button = Button(self, text="Indietro", font=(18), width=10, command=lambda : self.controller.show_frame(Home))
+        self.indietro_button = Button(self, text="Indietro", font=(18), width=10, command=lambda : self.controller.show_frame(LoginPage.Login))
         self.indietro_button.place(relx=0.5, rely=0.8, anchor=CENTER)
 
     def registrato(self):
@@ -79,4 +80,4 @@ class Registrazione(Frame):
             return
         
         self.db.insert_user(self.username_text.get(), self.nome_text.get(), self.cognome_text.get(), self.password_text.get())
-        self.controller.show_frame(Home)
+        self.controller.show_frame(HomePage.Home)

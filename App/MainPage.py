@@ -2,6 +2,7 @@ from tkinter import *
 from LoginPage import Login
 from RegistrazionePage import Registrazione
 from HomePage import Home
+from ProfiloPage import Profilo
 
 class Main(Tk):
     def __init__(self, *args, **kwargs):
@@ -12,18 +13,29 @@ class Main(Tk):
         self.container.pack(side="top", fill="both", expand=True)
   
         self.frames = {} 
-        self.frame_names = [Login, Registrazione, Home]
-        for F in self.frame_names:
-            frame = F(self.container, self)
-            self.frames[F] = frame
+        self.frame_names = [Login, Registrazione, Home, Profilo]
   
         self.show_frame(Login)
 
-    def show_frame(self, F):
-        frame = self.frames[F]
+    def show_frame(self, F, username=None):
+        try:
+            frame = self.frames[F]
+            if(F == Home or F == Profilo):
+                self.frames[F].username = username
+                frame = self.frames[F]
+        except KeyError:
+            if (F == Home or F == Profilo):
+                frame = F(self.container, self, username)
+                self.frames[F] = frame
+            else:
+                frame = F(self.container, self)
+                self.frames[F] = frame
         for f in self.frame_names:
             if f != F:
-                self.frames[f].pack_forget()
+                try:
+                    self.frames[f].pack_forget()
+                except KeyError:
+                    continue
         frame.pack(fill="both", expand=True)
         frame.tkraise()
 
