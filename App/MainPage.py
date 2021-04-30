@@ -20,8 +20,12 @@ class Main(Tk):
     def show_frame(self, F, username=None):
         try:
             frame = self.frames[F]
+            self.frames[F].destroy()
             if(F == Home or F == Profilo):
-                self.frames[F].username = username
+                self.frames[F] = F(self.container, self, username)
+                frame = self.frames[F]
+            else:
+                self.frames[F] = F(self.container, self)
                 frame = self.frames[F]
         except KeyError:
             if (F == Home or F == Profilo):
