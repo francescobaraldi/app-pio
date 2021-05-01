@@ -36,7 +36,7 @@ class Login(Frame):
     def login(self):
         users = self.db.read_user("*", "username", self.username_text.get())
         if(len(users) == 0):
-            error = Label(self, text="Non esiste un utente con qesto username.", font=(18), fg="red")
+            error = Label(self, text="Non esiste un utente con questo username.", font=(18), fg="red")
             error.place(relx=0.5, rely=0.35, anchor=CENTER)
             return
         if(users[0][3] != self.password_text.get()):

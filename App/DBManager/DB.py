@@ -40,6 +40,10 @@ class Database:
     def delete_company(self, name):
         self.cursor.execute("DELETE FROM companies WHERE name = '%s'".format(name))
         self.conn.commit()
+    
+    def read_interested(self, sel, attr, val):
+        self.cursor.execute("SELECT {sel} FROM interested WHERE {attr} = '%s'".format(sel=sel, attr=attr) % (val))
+        return self.cursor.fetchall()
 
     def close(self):
         self.conn.close()
