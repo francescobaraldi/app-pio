@@ -3,6 +3,7 @@ from LoginPage import Login
 from RegistrazionePage import Registrazione
 from HomePage import Home
 from ProfiloPage import Profilo
+from CompanyPage import Company
 
 class Main(Tk):
     def __init__(self, *args, **kwargs):
@@ -13,23 +14,30 @@ class Main(Tk):
         self.container.pack(side="top", fill="both", expand=True)
   
         self.frames = {} 
-        self.frame_names = [Login, Registrazione, Home, Profilo]
+        self.frame_names = [Login, Registrazione, Home, Profilo, Company]
+        self.frames_dinamici = [Home , Profilo, Company]
   
         self.show_frame(Login)
 
-    def show_frame(self, F, username=None):
+    def show_frame(self, F, username=None, name=None):
         try:
             frame = self.frames[F]
             self.frames[F].destroy()
-            if(F == Home or F == Profilo):
-                self.frames[F] = F(self.container, self, username)
+            if(F in self.frames_dinamici):
+                if(F == Company):
+                    self.frames[F] = F(self.container, self, username, name)    
+                else:
+                    self.frames[F] = F(self.container, self, username)
                 frame = self.frames[F]
             else:
                 self.frames[F] = F(self.container, self)
                 frame = self.frames[F]
         except KeyError:
-            if (F == Home or F == Profilo):
-                frame = F(self.container, self, username)
+            if (F in self.frames_dinamici):
+                if(F == Company):
+                    frame = F(self.container, self, username, name)
+                else:
+                    frame = F(self.container, self, username)
                 self.frames[F] = frame
             else:
                 frame = F(self.container, self)

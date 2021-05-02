@@ -29,7 +29,7 @@ class Database:
         self.conn.commit()
 
     def read_company(self, sel, attr, val):
-        self.cursor.execute("SELECT {sel} FROM company WHERE {attr} = '%s'".format(sel=sel, attr=attr) % (val))
+        self.cursor.execute("SELECT {sel} FROM companies WHERE {attr} = '%s'".format(sel=sel, attr=attr) % (val))
         return self.cursor.fetchall()
     
     def insert_company(self, name, market, total_investment, funding_rounds, founded_at, first_funding_at, last_funding_at):
