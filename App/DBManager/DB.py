@@ -40,10 +40,22 @@ class Database:
     def delete_company(self, name):
         self.cursor.execute("DELETE FROM companies WHERE name = '%s'".format(name))
         self.conn.commit()
-    
+
     def read_interested(self, sel, attr, val):
         self.cursor.execute("SELECT {sel} FROM interested WHERE {attr} = '%s'".format(sel=sel, attr=attr) % (val))
         return self.cursor.fetchall()
+    
+    def read_interested_mul(self, sel, attr, val, attr2, val2):
+        self.cursor.execute("SELECT {sel} FROM interested WHERE {attr} = '%s' AND {attr2} = '%s'".format(sel=sel, attr=attr, attr2=attr2) % (val, val2))
+        return self.cursor.fetchall()
+
+    def insert_interested(self, username, name):
+        self.cursor.execute("INSERT INTO interested (username, name) VALUES (%s, %s)", (username, name))
+        self.conn.commit()
+
+    def delete_interested(self, username, name):
+        self.cursor.execute("DELETE FROM interested WHERE username = '%s' AND name = '%s'" % (username, name))
+        self.conn.commit()
 
     def close(self):
         self.conn.close()
