@@ -117,9 +117,9 @@ features = ["market", "total_investment", "funding_rounds", "age_first_funding",
 X = df[features]
 y = df['status']
 
-X2 = min_max_scale(X)
+# X2 = min_max_scale(X)
 
-X_train, X_test, y_train, y_test = train_test_split(X2, y, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 n = 10
 while n <= 200:
@@ -156,13 +156,14 @@ file_data.close()
 test_feat = {}
 test_lab = {}
 
-engine_client = predictionio.EngineClient(url="http://192.168.1.127:8000")
+engine_client = predictionio.EngineClient(url="http://192.168.1.132:8000")
 diversi = 0
 uguali = 0
 for i in range(len(X_test)):
     count = 0
     for val in X_test.iloc[i]:
         test_feat[X_test.iloc[i].index[count]] = val
+        print(test_feat)
         count += 1
     y_pred = engine_client.send_query(test_feat)
     print(y_pred)
