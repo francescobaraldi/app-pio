@@ -3,6 +3,7 @@ from tkinter import ttk
 import LoginPage
 import ProfiloPage
 import CompanyPage
+import CreateCompanyPage
 from DBManager.DB import Database
 
 class Home(Frame):
@@ -78,7 +79,7 @@ class Home(Frame):
         self.cerca_list.delete(0, self.cerca_list.size())
         risultati = self.db.read_company("*", "name", self.cerca_text.get())
         if(len(risultati) == 0):
-            self.cerca_list.insert(END, "Nessun risultato")
+            self.cerca_list.insert(END, "Nessun risultato. Aggiungi l'azienda")
             return
         for row in risultati:
             self.cerca_list.insert(END, row[0])
@@ -102,5 +103,7 @@ class Home(Frame):
     def select_item_cerca(self, event):
         index = self.cerca_list.curselection()[0]
         name = self.cerca_list.get(index)
-        if(name != "Non sei interessato a nessuna azienda"):
+        if(name != "Nessun risultato. Aggiungi l'azienda"):
             self.controller.show_frame(CompanyPage.Company, self.username, name)
+        else:
+            self.controller.show_frame(CreateCompanyPage.CreateCompany, self.username)

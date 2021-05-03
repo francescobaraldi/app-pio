@@ -4,6 +4,7 @@ from RegistrazionePage import Registrazione
 from HomePage import Home
 from ProfiloPage import Profilo
 from CompanyPage import Company
+from CreateCompanyPage import CreateCompany
 
 class Main(Tk):
     def __init__(self, *args, **kwargs):
@@ -14,8 +15,8 @@ class Main(Tk):
         self.container.pack(side="top", fill="both", expand=True)
   
         self.frames = {} 
-        self.frame_names = [Login, Registrazione, Home, Profilo, Company]
-        self.frames_dinamici = [Home , Profilo, Company]
+        self.frame_names = [Login, Registrazione, Home, Profilo, Company, CreateCompany]
+        self.frames_dinamici = [Home , Profilo, Company, CreateCompany]
   
         self.show_frame(Login)
 

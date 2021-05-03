@@ -80,4 +80,4 @@ class Registrazione(Frame):
             return
         
         self.db.insert_user(self.username_text.get(), self.nome_text.get(), self.cognome_text.get(), self.password_text.get())
-        self.controller.show_frame(HomePage.Home)
+        self.controller.show_frame(HomePage.Home, self.username_text.get())
