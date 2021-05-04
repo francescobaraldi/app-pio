@@ -39,3 +39,10 @@ class Predictor:
                 features_dict[X.iloc[i].index[count]] = val
                 count += 1
         return features_dict
+
+    def predict_consigliati(self, username):
+        X = {"user": username, "num":10}
+        result = self.engine_client.send_query(X)
+        if(len(result['itemScores']) == 0):
+            return [{'item': "Nessun elemento consigliato"}]
+        return result['itemScores']

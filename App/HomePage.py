@@ -4,6 +4,7 @@ import LoginPage
 import ProfiloPage
 import CompanyPage
 import CreateCompanyPage
+from PredictorPage import Predictor
 from DBManager.DB import Database
 
 class Home(Frame):
@@ -13,6 +14,7 @@ class Home(Frame):
         self.parent = parent
         self.username = username
         self.db = Database()
+        self.predictor = Predictor()
         self.create_widgets()
     
     def create_widgets(self):
@@ -85,7 +87,9 @@ class Home(Frame):
             self.cerca_list.insert(END, row[0])
 
     def populate_consigliati_list(self):
-        pass
+        result = self.predictor.predict_consigliati(self.username)
+        for row in result:
+            self.consigliati_list.insert(END, row['item'])
 
     def select_item_interessi(self, event):
         index = self.interessi_list.curselection()[0]
@@ -97,7 +101,7 @@ class Home(Frame):
     def select_item_consigliati(self, event):
         index = self.consigliati_list.curselection()[0]
         name = self.consigliati_list.get(index)
-        if(name != "Non sei interessato a nessuna azienda"):
+        if(name != "Nessun elemento consigliato"):
             self.controller.show_frame(CompanyPage.Company, self.username, name)
 
     def select_item_cerca(self, event):
