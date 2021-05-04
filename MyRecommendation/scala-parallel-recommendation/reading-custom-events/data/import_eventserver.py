@@ -30,13 +30,12 @@ def import_events(client, file):
   print("Importing data...")
   for line in f:
     data = line.rstrip('\r\n').split(RATE_ACTIONS_DELIMITER)
-    # For demonstration purpose, randomly mix in some dislike events
     client.create_event(
       event=str(data[2]),
       entity_type="user",
-      entity_id=data[0],
+      entity_id=str(data[0]),
       target_entity_type="company",
-      target_entity_id=data[1]
+      target_entity_id=str(data[1])
     )
     count += 1
   f.close()
@@ -47,7 +46,7 @@ if __name__ == '__main__':
     description="Import sample data for recommendation engine")
   parser.add_argument('--access_key', default='invald_access_key')
   parser.add_argument('--url', default="http://localhost:7070")
-  parser.add_argument('--file', default="./data/sample_movielens_data.txt")
+  parser.add_argument('--file', default="./data/data.txt")
 
   args = parser.parse_args()
   print(args)

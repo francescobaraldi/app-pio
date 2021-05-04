@@ -24,6 +24,14 @@ class Database:
         self.cursor.execute("INSERT INTO users (username, nome, cognome, password) VALUES (%s, %s, %s, %s)", (username, nome, cognome, password))
         self.conn.commit()
 
+    def update_user(self, actualusername, username, nome, cognome, password):
+        self.cursor.execute("UPDATE users SET username = %s, nome = %s, cognome = %s, password = %s WHERE username = %s", (username, nome, cognome, password, actualusername))
+        self.conn.commit()
+
+    def read_company(self, sel, attr, val):
+        self.cursor.execute("SELECT {sel} FROM companies WHERE {attr} = '%s'".format(sel=sel, attr=attr) % (val))
+        return self.cursor.fetchall()
+    
     def insert_company(self, name, market, total_investment, funding_rounds, founded_at, first_funding_at, last_funding_at):
         self.cursor.execute("INSERT INTO companies (name, market, total_investment, funding_rounds, founded_at, first_funding_at, last_funding_at) \
                             VALUES (%s, %s, %s, %s, %s, %s, %s)", (name, market, total_investment, funding_rounds, founded_at, first_funding_at, last_funding_at))
@@ -33,7 +41,23 @@ class Database:
         self.cursor.execute("DELETE FROM companies WHERE name = '%s'".format(name))
         self.conn.commit()
 
-    def __del__(self):
+    def read_interested(self, sel, attr, val):
+        self.cursor.execute("SELECT {sel} FROM interested WHERE {attr} = '%s'".format(sel=sel, attr=attr) % (val))
+        return self.cursor.fetchall()
+    
+    def read_interested_mul(self, sel, attr, val, attr2, val2):
+        self.cursor.execute("SELECT {sel} FROM interested WHERE {attr} = '%s' AND {attr2} = '%s'".format(sel=sel, attr=attr, attr2=attr2) % (val, val2))
+        return self.cursor.fetchall()
+
+    def insert_interested(self, username, name):
+        self.cursor.execute("INSERT INTO interested (username, name) VALUES (%s, %s)", (username, name))
+        self.conn.commit()
+
+    def delete_interested(self, username, name):
+        self.cursor.execute("DELETE FROM interested WHERE username = '%s' AND name = '%s'" % (username, name))
+        self.conn.commit()
+
+    def close(self):
         self.conn.close()
 
 
@@ -151,3 +175,31 @@ for i in range(1, len(X)):
         else:
             params.append(X.iloc[i][j])
     db.insert_company(*params)
+
+
+
+
+# POPOLO LA TABLE interested
+
+db = Database()
+db.cursor.execute("SELECT name FROM companies")
+companies = db.cursor.fetchall()
+users = ["francesco", "francesco_baraldi", "filippo", "gloria"]
+
+count = 0
+for i in range(6, len(companies)):
+    if i % 11 == 0 and count <= 100:
+        db.insert_interested("gloria", companies[i][0])
+        count += 1
+
+francesco = db.read_interested('*', "username", "francesco")
+francesco_baraldi = db.read_interested('*', "username", "francesco_baraldi")
+filippo = db.read_interested('*', "username", "filippo")
+gloria = db.read_interested('*', "username", "gloria")
+
+file_data = open("data_rec.txt", "w")
+data = [francesco, francesco_baraldi, filippo, gloria]
+for d in data:
+    for i in range(len(d)):
+        file_data.write(d[i][0] + "::" + d[i][1] + "::" + "interested\n")
+file_data.close()
