@@ -52,12 +52,14 @@ class Company(Frame):
 
     def interessato(self):
         self.db.insert_interested(self.username, self.name)
+        self.predictor.insert_consigliato(self.username, self.name)
         self.interessato_button.destroy()
         self.interessato_button = Button(self, text="Non sono più interessato", font=(18), width=20, command=self.non_interessato)
         self.interessato_button.place(relx=0.4, rely=0.8, anchor=CENTER)
 
     def non_interessato(self):
         self.db.delete_interested(self.username, self.name)
+        self.predictor.insert_nonconsigliato(self.username, self.name)
         self.interessato_button.destroy()
         self.interessato_button = Button(self, text="Sono interessato", font=(18), width=20, command=self.interessato)
         self.interessato_button.place(relx=0.4, rely=0.8, anchor=CENTER)

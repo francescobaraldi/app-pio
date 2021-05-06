@@ -14,7 +14,7 @@ class Main(Tk):
         self.container = Frame(self)
         self.container.pack(side="top", fill="both", expand=True)
   
-        self.frames = {} 
+        self.frames = {}
         self.frame_names = [Login, Registrazione, Home, Profilo, Company, CreateCompany]
         self.frames_dinamici = [Home , Profilo, Company, CreateCompany]
   
