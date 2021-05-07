@@ -52,5 +52,9 @@ class Main(Tk):
         frame.pack(fill="both", expand=True)
         frame.tkraise()
 
-app = Main()
-app.mainloop()
+def main():
+    app = Main()
+    app.mainloop()
+
+if __name__ == "__main__":
+    main()

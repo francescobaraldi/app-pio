@@ -39,7 +39,7 @@ class Login(Frame):
             error = Label(self, text="Non esiste un utente con questo username.", font=(18), fg="red")
             error.place(relx=0.5, rely=0.35, anchor=CENTER)
             return
-        if(users[0][3] != self.password_text.get()):
+        elif(users[0][3] != self.password_text.get()):
             error = Label(self, text="Password errata.", font=(18), fg="red")
             error.place(relx=0.5, rely=0.35, anchor=CENTER)
             return

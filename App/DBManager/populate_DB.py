@@ -1,71 +1,3 @@
-import mysql.connector
-
-class Database:
-    def __init__(self):
-        file_ini = open("App/DBManager/config.ini", "r")
-        self.db_info = {}
-        for line in file_ini:
-            data = line.split("=")
-            self.db_info[str(data[0])] = str(data[1])
-        
-        self.conn = mysql.connector.connect(**self.db_info)
-        self.cursor = self.conn.cursor()
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS users (username VARCHAR(100), nome VARCHAR(100), cognome VARCHAR(100), password VARCHAR(100), PRIMARY KEY (username))")
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS companies (name VARCHAR(100), market VARCHAR(100), total_investment DOUBLE, funding_rounds INT, \
-                            founded_at DATE, first_funding_at DATE, last_funding_at DATE, PRIMARY KEY (name))")
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS interested (username VARCHAR(100), name VARCHAR(100), FOREIGN KEY (username) REFERENCES users(username), \
-                            FOREIGN KEY (name) REFERENCES companies(name))")
-
-    def read_user(self, sel, attr, val):
-        self.cursor.execute("SELECT {sel} FROM users WHERE {attr} = '%s'".format(sel=sel, attr=attr) % (val))
-        return self.cursor.fetchall()
-    
-    def insert_user(self, username, nome, cognome, password):
-        self.cursor.execute("INSERT INTO users (username, nome, cognome, password) VALUES (%s, %s, %s, %s)", (username, nome, cognome, password))
-        self.conn.commit()
-
-    def update_user(self, actualusername, username, nome, cognome, password):
-        self.cursor.execute("UPDATE users SET username = %s, nome = %s, cognome = %s, password = %s WHERE username = %s", (username, nome, cognome, password, actualusername))
-        self.conn.commit()
-
-    def read_company(self, sel, attr, val):
-        self.cursor.execute("SELECT {sel} FROM companies WHERE {attr} = '%s'".format(sel=sel, attr=attr) % (val))
-        return self.cursor.fetchall()
-    
-    def insert_company(self, name, market, total_investment, funding_rounds, founded_at, first_funding_at, last_funding_at):
-        self.cursor.execute("INSERT INTO companies (name, market, total_investment, funding_rounds, founded_at, first_funding_at, last_funding_at) \
-                            VALUES (%s, %s, %s, %s, %s, %s, %s)", (name, market, total_investment, funding_rounds, founded_at, first_funding_at, last_funding_at))
-        self.conn.commit()
-
-    def delete_company(self, name):
-        self.cursor.execute("DELETE FROM companies WHERE name = '%s'".format(name))
-        self.conn.commit()
-
-    def read_interested(self, sel, attr, val):
-        self.cursor.execute("SELECT {sel} FROM interested WHERE {attr} = '%s'".format(sel=sel, attr=attr) % (val))
-        return self.cursor.fetchall()
-    
-    def read_interested_mul(self, sel, attr, val, attr2, val2):
-        self.cursor.execute("SELECT {sel} FROM interested WHERE {attr} = '%s' AND {attr2} = '%s'".format(sel=sel, attr=attr, attr2=attr2) % (val, val2))
-        return self.cursor.fetchall()
-
-    def insert_interested(self, username, name):
-        self.cursor.execute("INSERT INTO interested (username, name) VALUES (%s, %s)", (username, name))
-        self.conn.commit()
-
-    def delete_interested(self, username, name):
-        self.cursor.execute("DELETE FROM interested WHERE username = '%s' AND name = '%s'" % (username, name))
-        self.conn.commit()
-
-    def close(self):
-        self.conn.close()
-
-
-
-#############################################
-# PARTE PER CLASSIFICATION #
-#############################################
-
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
@@ -73,9 +5,11 @@ import seaborn as sea
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 import predictionio
+from DB import Database
 
-def min_max_scale(X):
-    return (X - np.min(X, axis=0)) / (np.max(X, axis=0) - np.min(X, axis=0))
+#############################################
+# PARTE PER CLASSIFICATION #
+#############################################
 
 pd.set_option('display.max_columns', 100)
 
@@ -161,8 +95,6 @@ X = df[features]
 X['name'] = X['name'].fillna("Sconosciuto")
 X['first_funding_at'] = X['first_funding_at'].fillna(X.loc[37313][6])
 
-
-
 db = Database()
 
 for i in range(1, len(X)):
@@ -179,9 +111,10 @@ for i in range(1, len(X)):
 
 
 
-# POPOLO LA TABLE interested
+#############################################
+# PARTE PER RECOEMMENDATION #
+#############################################
 
-db = Database()
 db.cursor.execute("SELECT name FROM companies")
 companies = db.cursor.fetchall()
 users = ["francesco", "francesco_baraldi", "filippo", "gloria"]

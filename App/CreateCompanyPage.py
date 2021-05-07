@@ -43,17 +43,17 @@ class CreateCompany(Frame):
 
         self.founded_at_label = Label(self, text="Fondata nel:", font=(18))
         self.founded_at_label.place(relx=0.3, rely=0.6, anchor=CENTER)
-        self.founded_at_cal = tkcalendar.DateEntry(self, fg="black")
+        self.founded_at_cal = tkcalendar.DateEntry(self, bg="darkblue",fg="white")
         self.founded_at_cal.place(relx=0.5, rely=0.6, anchor=CENTER)
 
         self.first_funding_at_label = Label(self, text="Data primo investimento:", font=(18))
         self.first_funding_at_label.place(relx=0.3, rely=0.7, anchor=CENTER)
-        self.first_funding_at_cal = tkcalendar.DateEntry(self, fg="black")
+        self.first_funding_at_cal = tkcalendar.DateEntry(self, bg="darkblue",fg="white")
         self.first_funding_at_cal.place(relx=0.5, rely=0.7, anchor=CENTER)
 
         self.last_funding_at_label = Label(self, text="Data ultimo investimento:", font=(18))
         self.last_funding_at_label.place(relx=0.3, rely=0.8, anchor=CENTER)
-        self.last_funding_at_cal = tkcalendar.DateEntry(self, fg="black")
+        self.last_funding_at_cal = tkcalendar.DateEntry(self, bg="darkblue",fg="white")
         self.last_funding_at_cal.place(relx=0.5, rely=0.8, anchor=CENTER)
 
         self.inserimento_button = Button(self, text="Inserisci azienda", font=(18), width=20, command=lambda : self.inserisci())
