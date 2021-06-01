@@ -6,8 +6,8 @@ from DBManager.DB import Database
 class Predictor:
     def __init__(self, url=None):
         self.db = Database()
-        self.engine_client_class = predictionio.EngineClient(url="http://192.168.15.124:8000")
-        self.engine_client_rec = predictionio.EngineClient(url="http://192.168.15.124:8001")
+        self.engine_client_class = predictionio.EngineClient(url="http://192.168.1.127:8000")
+        self.engine_client_rec = predictionio.EngineClient(url="http://192.168.1.127:8001")
         self.event_client = predictionio.EventClient(access_key="6S_JIW0eesru9ea5NsTwO0dIBea-Q8Wp2tBX7Kh8EojF4KRme8JTnqpr5J0M1hTk", url="http://192.168.1.132:7070", threads=5, qsize=500) 
 
     def predict_company(self, name):
