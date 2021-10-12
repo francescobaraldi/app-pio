@@ -10,7 +10,7 @@ class Main(Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.geometry("1000x800")
-        self.title("Nome App")
+        self.title("Investment App")
         self.container = Frame(self)
         self.container.pack(side="top", fill="both", expand=True)
   

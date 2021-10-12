@@ -15,7 +15,7 @@ def min_max_scale(X):
 
 pd.set_option('display.max_columns', 100)
 
-df = pd.read_csv('investments_VC.csv')
+df = pd.read_csv('./investments_VC.csv')
 
 # Elimino le righe in eccesso dal file csv per avere solo i dati reali
 df = df[:49438]

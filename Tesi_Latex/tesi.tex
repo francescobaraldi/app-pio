@@ -1,0 +1,46 @@
+\documentclass[12pt,a4paper,twoside,openany]{book}
+\usepackage[italian]{babel}
+\renewcommand{\baselinestretch}{1.5} 
+\usepackage[]{frontespizio}
+\usepackage[autostyle,italian=guillemets,]{csquotes}
+\usepackage[bibstyle=authortitle,citestyle=verbose-trad1,backend=biber,style=numeric]{biblatex}
+\addbibresource{tesi.bib}
+\usepackage[]{hyperref}
+
+\begin{document}
+
+\begin{frontespizio}
+\Rientro {1.5cm}
+\Margini {1.5cm}{1.5cm}{1.5cm}{1cm}
+\Universita {Modena e Reggio Emilia}
+%\Logo [1.5cm]{immagini/UNIMORE.jpg}
+\Dipartimento {Ingegneria "Enzo Ferrari"}
+\Corso [Laurea]{Ingegneria Informatica}
+\Annoaccademico {2020-2021}
+\Titoletto {Prova Finale}
+\Titolo {Sviluppo di un'applicazione che integra algoritmi di machine learning con Apache PredictionIO}
+\Candidato [132097]{Francesco Baraldi}
+\Relatore {Prof. Francesco Guerra}
+%\Correlatore{da inserire}
+\end{frontespizio}
+
+%\newpage
+%\begin{flushright}
+%\null\vspace{\stretch{1}}
+%\textit{All'unione di Shiva e Parvati che rende feconda la distruzione.}
+%\vspace{\stretch{2}}\null
+%\end{flushright}
+
+\tableofcontents
+\listoffigures
+
+\input{capitoli/introduzione.tex}
+\input{capitoli/predictionio.tex}
+\input{capitoli/applicazione.tex}
+\input{capitoli/conclusione.tex}
+
+\appendix
+
+\printbibliography[heading=bibintoc]
+
+\end{document}
